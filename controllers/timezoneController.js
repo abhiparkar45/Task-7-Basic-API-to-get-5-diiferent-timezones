@@ -1,12 +1,19 @@
 const sendSuccessResponse = require("../responses/successResponse");
 
-exports.sendTime = async (req, res) => {
-    const timeZone = req.cityName;
-    const data = new Date(new Date(new Date()).toLocaleString('en-US', { timeZone }));
-    const result = sendSuccessResponse('Data fetched successfully', {
+exports.sendTime = async (req, res, next) => {
+  try {
+    const timeZone = await req.cityName;
+    const dateString = new Date().toLocaleDateString("en-US", { timeZone });
+    const timeString = new Date().toLocaleTimeString("en-US", { timeZone });
+
+    res.status(200).json(
+      sendSuccessResponse("Data fetched successfully", {
         timezone: req.cityName,
-        Date: data.toLocaleDateString(),
-        time: data.toLocaleTimeString()
-    })
-    res.status(200).json(result)
-}
+        Date: dateString,
+        time: timeString,
+      })
+    );
+  } catch (err) {
+    next(err);
+  }
+};

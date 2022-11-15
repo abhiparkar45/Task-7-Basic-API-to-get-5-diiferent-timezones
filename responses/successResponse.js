@@ -1,8 +1,8 @@
-const sendSuccessResponse = (message, data) => {
-    return {
-        success: true,
-        message,
-        result: data
-    }
-}
+const sendSuccessResponse = (message, result) => {
+  return {
+    success: true,
+    message,
+    result,
+  };
+};
 module.exports = sendSuccessResponse;
